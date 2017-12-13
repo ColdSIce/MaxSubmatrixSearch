@@ -3,13 +3,15 @@ package com.matrix.model;
 public class Rectangle {
     private Point topLeft;
     private Point bottomRight;
+    private int s;
 
     public Rectangle() {
     }
 
-    public Rectangle(Point topLeft, Point bottomRight) {
+    public Rectangle(Point topLeft, Point bottomRight, int s) {
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
+        this.s = s;
     }
 
     public Point getTopLeft() {
@@ -28,10 +30,20 @@ public class Rectangle {
         this.bottomRight = bottomRight;
     }
 
+    public int getS() {
+        return s;
+    }
+
+    public void setS(int s) {
+        this.s = s;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Max rect coordinates: ");
+        builder.append("Rect S = ");
+        builder.append(s);
+        builder.append(", coordinates: ");
         if(topLeft != null) builder.append("(")
                 .append(topLeft.getX())
                 .append(",")
