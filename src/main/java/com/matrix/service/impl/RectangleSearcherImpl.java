@@ -5,11 +5,6 @@ import com.matrix.model.Rectangle;
 import com.matrix.service.RectangleSearcher;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
 @Component
 public class RectangleSearcherImpl implements RectangleSearcher {
 
@@ -38,7 +33,8 @@ public class RectangleSearcherImpl implements RectangleSearcher {
         основание которого лежит в строке i, проверяем высоту в соседней ячейке.
         если такая же или больше, то двигаем индекс правой стороны прямоугольника на 1 вправо.
         Далее считаем площадь, объединяем данные в объект "прямоугольник".*/
-        List<Rectangle> rList = new ArrayList<>();
+        Rectangle rectangle = new Rectangle();
+        rectangle.setS(0);
         for(int i = 0; i < pMatrix.length; i++){
             for(int j = 0; j < pMatrix[0].length; j++){
                 if(pMatrix[i][j] > 0){
@@ -53,14 +49,15 @@ public class RectangleSearcherImpl implements RectangleSearcher {
 
                     int s = h * (r - j + 1);
 
-                    rList.add(new Rectangle(new Point(j, i-h+1), new Point(r, i), s));
+                    if(s > rectangle.getS()) {
+                        rectangle.setS(s);
+                        rectangle.setTopLeft(new Point(j, i - h + 1));
+                        rectangle.setBottomRight(new Point(r, i));
+                    }
                 }
             }
         }
 
-        //ищем прямоугольник с макс площадью
-        Optional<Rectangle> optional = rList.stream().max(Comparator.comparing(Rectangle::getS));
-
-        return optional.orElse(null);
+        return rectangle;
     }
 }
